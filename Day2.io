@@ -48,8 +48,42 @@ list(6, 2, 4, 7, 1, 9, 10, 1, 20, 0) myAverage println
 
 "" println
 
-"#Opdracht 5, 6, 7#" println
+"#Opdracht 5#" println
+MultiDList := List clone;
+MultiDList dim := method(x,y,
+	self setSize(x)
+	   for(i,0,(x - 1), 1,
+        self atPut(i,(list setSize(y))
+        )
+    )
+)
 
+MultiDList get := method( x, y,
+    self at(x) at(y)
+)
+
+MultiDList set := method( x, y, value,
+	self at(x) atPut(y,value);
+)
+
+matrix := MultiDList dim(2,2); 
+matrix set(0,0,"A");
+matrix set(0,1,"B");
+matrix set(1,0,"C");
+matrix set(1,1,"D");
+"nieuw gemaakte matrix" println
+matrix println
+ 
+MDArrayfile := File open("day2twodarray.txt") 
+MDArrayfile write( matrix serialized())
+MDArrayfile close
+
+""println
+
+"#Opdracht 7#" println
+"matrix from file" println
+matrixFromFile := doFile("day2twodarray.txt")
+matrixFromFile println
 
 "" println
 
@@ -71,7 +105,24 @@ while(numberOfGeusses < 10,
 	)
 	
 	if(input == number) then (
-		return "You guesed the number!" println
+		"You guesed the number!" println
+		numberOfGeusses = 10
 	)
 	numberOfGeusses = numberOfGeusses + 1
 )
+
+/**
+ * Testcase for IO Day 2 myAverage function of Opdracht 4.
+ */
+opdracht4TestCase := UnitTest do(
+	setUp := method(
+		self oneToTen := list(1,2,3,4,5,6,7,8,9,10)
+	)
+
+	test_AverageOfOneToTenShouldBeFiftyFive := method(
+		assertEquals(5.5, oneToTen myAverage)
+	)
+)
+
+FileCollector run
+DirectoryCollector run
